@@ -1,87 +1,179 @@
-import tkinter as tk
+import pygame
+import math
 import random
 
-def print_board(board):
-    for row in board:
-        print(" | ".join(row))
-        print("-" * 9)
+# Inisialisasi Pygame
+pygame.init()
 
-def check_winner(board):
-    for i in range(3):
-        if board[i][0] == board[i][1] == board[i][2] != " ":
-            return board[i][0]
-        if board[0][i] == board[1][i] == board[2][i] != " ":
-            return board[0][i]
+# Variabel global
+WIDTH, HEIGHT = 600, 600
+LINE_WIDTH = 15
+BOARD_ROWS, BOARD_COLS = 3, 3
+SQUARE_SIZE = WIDTH // BOARD_COLS
+CIRCLE_RADIUS = SQUARE_SIZE // 3
+CIRCLE_WIDTH = 15
+CROSS_WIDTH = 25
+SPACE = SQUARE_SIZE // 4
+BG_COLOR = (28, 170, 156)
+LINE_COLOR = (23, 145, 135)
+CIRCLE_COLOR = (239, 231, 200)
+CROSS_COLOR = (66, 66, 66)
+WIN_FONT = pygame.font.Font(None, 50)
 
-    if board[0][0] == board[1][1] == board[2][2] != " ":
-        return board[0][0]
-    if board[0][2] == board[1][1] == board[2][0] != " ":
-        return board[0][2]
-    
-    return None
+# Membuat layar permainan
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Tic Tac Toe")
+screen.fill(BG_COLOR)
 
-def get_empty_cells(board):
-    empty_cells = []
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == " ":
-                empty_cells.append((i, j))
-    return empty_cells
+# Membuat papan permainan
+board = [[' ' for _ in range(BOARD_COLS)] for _ in range(BOARD_ROWS)]
 
-def handle_click(row, col):
-    global current_player, board_buttons, game_over
-    
-    if board[row][col] != " " or game_over:
-        return
-    
-    board[row][col] = current_player
-    board_buttons[row][col].config(text=current_player)
-    
-    winner = check_winner(board)
-    if winner:
-        status_label.config(text=f"Pemain {winner} menang!")
-        game_over = True
-        return
+# Fungsi untuk menggambar garis papan permainan
+def draw_lines():
+    # Garis horizontal
+    pygame.draw.line(screen, LINE_COLOR, (0, SQUARE_SIZE), (WIDTH, SQUARE_SIZE), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (0, 2 * SQUARE_SIZE), (WIDTH, 2 * SQUARE_SIZE), LINE_WIDTH)
+    # Garis vertikal
+    pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (2 * SQUARE_SIZE, 0), (2 * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
-    if len(get_empty_cells(board)) == 0:
-        status_label.config(text="Permainan seri!")
-        game_over = True
-        return
-    
-    current_player = "X" if current_player == "O" else "O"
-    status_label.config(text=f"Giliran pemain {current_player}")
+# Fungsi untuk menggambar simbol X atau O di kotak tertentu
+def draw_figures():
+    for row in range(BOARD_ROWS):
+        for col in range(BOARD_COLS):
+            if board[row][col] == 'X':
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), 
+                                 (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE), 
+                                 (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), CROSS_WIDTH)
+            elif board[row][col] == 'O':
+                pygame.draw.circle(screen, CIRCLE_COLOR, (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2), 
+                                   CIRCLE_RADIUS, CIRCLE_WIDTH)
 
-def restart_game():
-    global current_player, board, board_buttons, game_over
-    
-    current_player = random.choice(["X", "O"])
-    board = [[" " for _ in range(3)] for _ in range(3)]
+# Fungsi untuk menandai kotak yang dipilih oleh pemain
+def mark_square(row, col, player):
+    board[row][col] = player
+
+# Fungsi untuk memeriksa apakah terdapat pemenang
+def winner(board, player):
+    # Mengecek baris
+    for row in range(BOARD_ROWS):
+        if all([board[row][col] == player for col in range(BOARD_COLS)]):
+            return True
+    # Mengecek kolom
+    for col in range(BOARD_COLS):
+        if all([board[row][col] == player for row in range(BOARD_ROWS)]):
+            return True
+    # Mengecek diagonal
+    if all([board[i][i] == player for i in range(BOARD_ROWS)]):
+        return True
+    if all([board[i][BOARD_COLS - 1 - i] == player for i in range(BOARD_ROWS)]):
+        return True
+    return False
+
+# Fungsi untuk mengecek apakah terdapat kotak kosong di papan permainan
+def empty_squares(board):
+    return any([board[row][col] == ' ' for row in range(BOARD_ROWS) for col in range(BOARD_COLS)])
+
+# Fungsi untuk menampilkan pesan hasil permainan
+def display_result(winner):
+    result_text = "It's a Tie!" if winner == 'Tie' else f"{winner} wins!"
+    text_surface = WIN_FONT.render(result_text, True, (255, 255, 255))
+    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    screen.blit(text_surface, text_rect)
+    pygame.display.flip()
+
+# Fungsi untuk mengevaluasi papan dengan algoritma Minimax dengan pruning alpha-beta
+def minimax(board, depth, maximizing_player, alpha, beta):
+    if winner(board, 'X'):
+        return -1
+    elif winner(board, 'O'):
+        return 1
+    elif not empty_squares(board):
+        return 0
+
+    if maximizing_player:
+        max_eval = -math.inf
+        for row in range(BOARD_ROWS):
+            for col in range(BOARD_COLS):
+                if board[row][col] == ' ':
+                    board[row][col] = 'O'
+                    eval = minimax(board, depth + 1, False, alpha, beta)
+                    board[row][col] = ' '
+                    max_eval = max(max_eval, eval)
+                    alpha = max(alpha, eval)
+                    if beta <= alpha:
+                        break
+        return max_eval
+    else:
+        min_eval = math.inf
+        for row in range(BOARD_ROWS):
+            for col in range(BOARD_COLS):
+                if board[row][col] == ' ':
+                    board[row][col] = 'X'
+                    eval = minimax(board, depth + 1, True, alpha, beta)
+                    board[row][col] = ' '
+                    min_eval = min(min_eval, eval)
+                    beta = min(beta, eval)
+                    if beta <= alpha:
+                        break
+        return min_eval
+
+# Fungsi untuk memilih langkah terbaik menggunakan algoritma Minimax dengan pruning alpha-beta
+def best_move(board):
+    best_score = -math.inf
+    best_move = None
+    for row in range(BOARD_ROWS):
+        for col in range(BOARD_COLS):
+            if board[row][col] == ' ':
+                board[row][col] = 'O'
+                score = minimax(board, 0, False, -math.inf, math.inf)
+                board[row][col] = ' '
+                if score > best_score:
+                    best_score = score
+                    best_move = (row, col)
+    return best_move
+
+# Fungsi utama permainan
+def main():
+    current_player = 'X'
     game_over = False
-    
-    for i in range(3):
-        for j in range(3):
-            board_buttons[i][j].config(text=" ", state="normal")
-    
-    status_label.config(text=f"Giliran pemain {current_player}")
 
-root = tk.Tk()
-root.title("Tic Tac Toe")
+    while not game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+                break
+            if event.type == pygame.MOUSEBUTTONDOWN and current_player == 'X' and not game_over:
+                mouseX = event.pos[0] // SQUARE_SIZE
+                mouseY = event.pos[1] // SQUARE_SIZE
+                if board[mouseY][mouseX] == ' ':
+                    mark_square(mouseY, mouseX, current_player)
+                    if winner(board, current_player):
+                        display_result(current_player)
+                        game_over = True
+                    elif not empty_squares(board):
+                        display_result('Tie')
+                        game_over = True
+                    current_player = 'O'
+            elif current_player == 'O' and not game_over:
+                move = best_move(board)
+                mark_square(move[0], move[1], current_player)
+                if winner(board, current_player):
+                    display_result(current_player)
+                    game_over = True
+                elif not empty_squares(board):
+                    display_result('Tie')
+                    game_over = True
+                current_player = 'X'
 
-board = [[" " for _ in range(3)] for _ in range(3)]
-current_player = random.choice(["X", "O"])
-game_over = False
+        screen.fill(BG_COLOR)
+        draw_lines()
+        draw_figures()
+        pygame.display.flip()
 
-board_buttons = [[None for _ in range(3)] for _ in range(3)]
-for i in range(3):
-    for j in range(3):
-        board_buttons[i][j] = tk.Button(root, text=" ", font=("Helvetica", 20), width=4, height=2,
-                                        command=lambda row=i, col=j: handle_click(row, col))
-        board_buttons[i][j].grid(row=i, column=j)
-        
-status_label = tk.Label(root, text=f"Giliran pemain {current_player}", font=("Helvetica", 12))
-status_label.grid(row=3, columnspan=3)
+    pygame.time.wait(3000)
+    pygame.quit()
 
-restart_button = tk.Button(root, text="Restart", font=("Helvetica", 12), command=restart_game)
-restart_button.grid(row=4, columnspan=3)
-
-root.mainloop()
+if __name__ == '__main__':
+    main()
