@@ -1,0 +1,6 @@
+Character,Capacity,Capital,Collateral,Condition_of_Economic,Constrain,Approved
+Good,High,50000,100000,Stable,None,Yes
+Average,Medium,20000,50000,Moderate,None,No
+Poor,Low,10000,20000,Unstable,Yes,No
+Good,High,60000,150000,Stable,None,Yes
+Average,Low,15000,30000,Moderate,Yes,No
