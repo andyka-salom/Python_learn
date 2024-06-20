@@ -1,21 +1,51 @@
 ID,Nama,Umur,Pendapatan,Status_Pekerjaan,Jumlah_Pinjaman,Lama_Pinjaman,Riwayat_Pembayaran,Kelayakan_Kredit
-1,Ahmad,35,50000,Pegawai,10000,12,Lancar,Layak
-2,Budi,42,120000,Wiraswasta,20000,24,Macet,Tidak_Layak
-3,Chandra,29,35000,Pegawai,5000,6,Lancar,Layak
-4,Dewi,45,75000,Pegawai,15000,18,Lancar,Layak
-5,Eka,33,90000,Wiraswasta,25000,36,Macet,Tidak_Layak
-6,Fajar,38,45000,Pegawai,8000,12,Lancar,Layak
-7,Gina,27,60000,Pegawai,12000,24,Macet,Tidak_Layak
-8,Hadi,50,100000,Wiraswasta,30000,36,Lancar,Layak
-9,Ika,31,70000,Pegawai,15000,24,Macet,Tidak_Layak
-10,Joko,40,85000,Wiraswasta,20000,12,Lancar,Layak
-11,Kiki,28,40000,Pegawai,7000,18,Lancar,Layak
-12,Lina,44,110000,Wiraswasta,25000,24,Macet,Tidak_Layak
-13,Mira,37,65000,Pegawai,10000,12,Lancar,Layak
-14,Nina,32,80000,Pegawai,15000,36,Macet,Tidak_Layak
-15,Omar,49,95000,Wiraswasta,20000,24,Lancar,Layak
-16,Putu,30,55000,Pegawai,8000,12,Lancar,Layak
-17,Qori,41,125000,Wiraswasta,30000,36,Macet,Tidak_Layak
-18,Rani,34,72000,Pegawai,15000,18,Lancar,Layak
-19,Susi,39,47000,Pegawai,10000,12,Macet,Tidak_Layak
-20,Tono,46,130000,Wiraswasta,25000,24,Lancar,Layak
+1,Andi,30,5000000,Karyawan Tetap,10000000,12,Baik,Layak
+2,Budi,25,3000000,Pengusaha,8000000,10,Cukup Baik,Layak
+3,Cici,35,7000000,Karyawan Kontrak,12000000,15,Baik,Layak
+4,Doni,28,4000000,Karyawan Tetap,6000000,8,Cukup Baik,Tidak Layak
+5,Elis,32,6000000,Pengusaha,15000000,18,Buruk,Layak
+6,Fafa,29,4500000,Karyawan Tetap,9000000,11,Cukup Baik,Tidak Layak
+7,Gigi,31,5500000,Pengusaha,11000000,14,Baik,Layak
+8,Hadi,27,3200000,Karyawan Tetap,5000000,7,Buruk,Tidak Layak
+9,Indra,33,4800000,Karyawan Tetap,7000000,9,Cukup Baik,Tidak Layak
+10,Joko,26,2800000,Pengusaha,4000000,5,Buruk,Tidak Layak
+11,Kiki,34,5200000,Karyawan Tetap,8000000,10,Baik,Layak
+12,Lisa,29,3800000,Karyawan Kontrak,5500000,6,Cukup Baik,Tidak Layak
+13,Maya,31,6000000,Karyawan Tetap,10000000,12,Buruk,Layak
+14,Nina,28,4200000,Pengusaha,7000000,9,Cukup Baik,Tidak Layak
+15,Oscar,33,5500000,Karyawan Tetap,12000000,14,Baik,Layak
+16,Peter,26,3200000,Pengusaha,4500000,6,Buruk,Tidak Layak
+17,Queen,30,4800000,Karyawan Tetap,9000000,11,Cukup Baik,Tidak Layak
+18,Rani,27,3000000,Karyawan Kontrak,4000000,5,Cukup Baik,Tidak Layak
+19,Sari,35,7000000,Pengusaha,13000000,16,Baik,Layak
+20,Tono,32,4200000,Karyawan Tetap,8000000,10,Cukup Baik,Tidak Layak
+21,Udin,29,3500000,Karyawan Tetap,6000000,7,Cukup Baik,Tidak Layak
+22,Vina,31,5800000,Pengusaha,11000000,13,Baik,Layak
+23,Wulan,28,4000000,Karyawan Tetap,7500000,9,Buruk,Tidak Layak
+24,Xander,34,5300000,Karyawan Kontrak,10000000,12,Baik,Layak
+25,Yuni,26,3200000,Pengusaha,4800000,6,Buruk,Tidak Layak
+26,Zara,30,4900000,Karyawan Tetap,8500000,10,Cukup Baik,Tidak Layak
+27,Agus,27,3000000,Pengusaha,5500000,7,Cukup Baik,Tidak Layak
+28,Bayu,33,6000000,Karyawan Tetap,11000000,13,Buruk,Layak
+29,Citra,31,5500000,Pengusaha,9000000,11,Cukup Baik,Tidak Layak
+30,Dhani,29,3800000,Karyawan Tetap,6500000,8,Cukup Baik,Tidak Layak
+31,Edi,35,7200000,Pengusaha,14000000,17,Baik,Layak
+32,Fitri,32,4300000,Karyawan Tetap,8500000,10,Cukup Baik,Tidak Layak
+33,Gita,28,4100000,Karyawan Kontrak,7000000,9,Baik,Tidak Layak
+34,Hadi,34,5400000,Pengusaha,11500000,14,Cukup Baik,Layak
+35,Ina,26,3100000,Karyawan Tetap,5000000,6,Buruk,Tidak Layak
+36,Joko,30,4800000,Pengusaha,10000000,12,Baik,Layak
+37,Karin,27,3200000,Karyawan Tetap,5500000,7,Cukup Baik,Tidak Layak
+38,Lia,33,6000000,Karyawan Tetap,11000000,13,Buruk,Layak
+39,Miko,31,5600000,Pengusaha,9500000,11,Cukup Baik,Tidak Layak
+40,Nia,29,3600000,Karyawan Tetap,6800000,8,Baik,Tidak Layak
+41,Opik,35,7000000,Pengusaha,13000000,15,Baik,Layak
+42,Pia,32,4400000,Karyawan Tetap,8000000,10,Cukup Baik,Tidak Layak
+43,Qiqi,28,4200000,Karyawan Kontrak,6500000,8,Cukup Baik,Tidak Layak
+44,Rian,34,5500000,Pengusaha,12000000,14,Baik,Layak
+45,Sari,26,3100000,Karyawan Tetap,4800000,6,Cukup Baik,Tidak Layak
+46,Tono,30,4900000,Pengusaha,9000000,11,Cukup Baik,Tidak Layak
+47,Umi,27,3100000,Karyawan Tetap,6000000,7,Buruk,Tidak Layak
+48,Vivi,33,5800000,Pengusaha,11000000,13,Baik,Layak
+49,Wulan,31,5200000,Karyawan Tetap,10000000,12,Cukup Baik,Layak
+50,Xena,29,3700000,Karyawan Kontrak,7000000,9,Buruk,Tidak Layak
